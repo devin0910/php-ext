@@ -36,13 +36,16 @@ extern zend_module_entry hello_module_entry;
 #include "TSRM.h"
 #endif
 
+#define PHP_HELLO_EXTNAME "hello"
+#define PHP_HELLO_VERSION "0.0.1"
+
 PHP_MINIT_FUNCTION(hello);
 PHP_MSHUTDOWN_FUNCTION(hello);
 PHP_RINIT_FUNCTION(hello);
 PHP_RSHUTDOWN_FUNCTION(hello);
 PHP_MINFO_FUNCTION(hello);
 
-PHP_FUNCTION(confirm_hello_compiled);	/* For testing, remove later. */
+PHP_FUNCTION(say_hello);	/* For testing, remove later. */
 
 /* 
   	Declare any global variables you may need between the BEGIN

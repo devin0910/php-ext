@@ -39,7 +39,7 @@ static int le_hello;
  * Every user visible function must have an entry in hello_functions[].
  */
 const zend_function_entry hello_functions[] = {
-	PHP_FE(confirm_hello_compiled,	NULL)		/* For testing, remove later. */
+	PHP_FE(say_hello,	NULL)		/* For testing, remove later. */
 	PHP_FE_END	/* Must be the last line in hello_functions[] */
 };
 /* }}} */
@@ -50,7 +50,7 @@ zend_module_entry hello_module_entry = {
 #if ZEND_MODULE_API_NO >= 20010901
 	STANDARD_MODULE_HEADER,
 #endif
-	"hello",
+	PHP_HELLO_EXTNAME,
 	hello_functions,
 	PHP_MINIT(hello),
 	PHP_MSHUTDOWN(hello),
@@ -58,7 +58,7 @@ zend_module_entry hello_module_entry = {
 	PHP_RSHUTDOWN(hello),	/* Replace with NULL if there's nothing to do at request end */
 	PHP_MINFO(hello),
 #if ZEND_MODULE_API_NO >= 20010901
-	"0.1", /* Replace with version number for your extension */
+	PHP_HELLO_VERSION, /* Replace with version number for your extension */
 #endif
 	STANDARD_MODULE_PROPERTIES
 };
@@ -149,20 +149,11 @@ PHP_MINFO_FUNCTION(hello)
    purposes. */
 
 /* Every user-visible function in PHP should document itself in the source */
-/* {{{ proto string confirm_hello_compiled(string arg)
+/* {{{ proto string say_hello(string arg)
    Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(confirm_hello_compiled)
+PHP_FUNCTION(say_hello)
 {
-	char *arg = NULL;
-	int arg_len, len;
-	char *strg;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
-		return;
-	}
-
-	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "hello", arg);
-	RETURN_STRINGL(strg, len, 0);
+	php_printf("Hello, Venus!\n");
 }
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and 
