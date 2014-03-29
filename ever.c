@@ -25,73 +25,76 @@
 #include "php.h"
 #include "php_ini.h"
 #include "ext/standard/info.h"
-#include "php_hello.h"
+#include "php_ever.h"
 
-/* If you declare any globals in php_hello.h uncomment this:
-ZEND_DECLARE_MODULE_GLOBALS(hello)
+/* If you declare any globals in php_ever.h uncomment this:
+ZEND_DECLARE_MODULE_GLOBALS(ever)
 */
 
 /* True global resources - no need for thread safety here */
-static int le_hello;
+static int le_ever;
 
-/* {{{ hello_functions[]
+/* {{{ ever_functions[]
  *
- * Every user visible function must have an entry in hello_functions[].
+ * Every user visible function must have an entry in ever_functions[].
  */
-const zend_function_entry hello_functions[] = {
-	PHP_FE(confirm_hello_compiled,	NULL)		/* For testing, remove later. */
-	PHP_FE_END	/* Must be the last line in hello_functions[] */
+const zend_function_entry ever_functions[] = {
+	PHP_FE(confirm_ever_compiled,	NULL)		/* For testing, remove later. */
+	PHP_FE(calcpi,	NULL)
+	PHP_FE(reverse,	NULL)
+	PHP_FE(uniquechars,	NULL)
+	PHP_FE_END	/* Must be the last line in ever_functions[] */
 };
 /* }}} */
 
-/* {{{ hello_module_entry
+/* {{{ ever_module_entry
  */
-zend_module_entry hello_module_entry = {
+zend_module_entry ever_module_entry = {
 #if ZEND_MODULE_API_NO >= 20010901
 	STANDARD_MODULE_HEADER,
 #endif
-	"hello",
-	hello_functions,
-	PHP_MINIT(hello),
-	PHP_MSHUTDOWN(hello),
-	PHP_RINIT(hello),		/* Replace with NULL if there's nothing to do at request start */
-	PHP_RSHUTDOWN(hello),	/* Replace with NULL if there's nothing to do at request end */
-	PHP_MINFO(hello),
+	"ever",
+	ever_functions,
+	PHP_MINIT(ever),
+	PHP_MSHUTDOWN(ever),
+	PHP_RINIT(ever),		/* Replace with NULL if there's nothing to do at request start */
+	PHP_RSHUTDOWN(ever),	/* Replace with NULL if there's nothing to do at request end */
+	PHP_MINFO(ever),
 #if ZEND_MODULE_API_NO >= 20010901
-	"0.1", /* Replace with version number for your extension */
+	PHP_EVER_VERSION,
 #endif
 	STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 
-#ifdef COMPILE_DL_HELLO
-ZEND_GET_MODULE(hello)
+#ifdef COMPILE_DL_EVER
+ZEND_GET_MODULE(ever)
 #endif
 
 /* {{{ PHP_INI
  */
 /* Remove comments and fill if you need to have entries in php.ini
 PHP_INI_BEGIN()
-    STD_PHP_INI_ENTRY("hello.global_value",      "42", PHP_INI_ALL, OnUpdateLong, global_value, zend_hello_globals, hello_globals)
-    STD_PHP_INI_ENTRY("hello.global_string", "foobar", PHP_INI_ALL, OnUpdateString, global_string, zend_hello_globals, hello_globals)
+    STD_PHP_INI_ENTRY("ever.global_value",      "42", PHP_INI_ALL, OnUpdateLong, global_value, zend_ever_globals, ever_globals)
+    STD_PHP_INI_ENTRY("ever.global_string", "foobar", PHP_INI_ALL, OnUpdateString, global_string, zend_ever_globals, ever_globals)
 PHP_INI_END()
 */
 /* }}} */
 
-/* {{{ php_hello_init_globals
+/* {{{ php_ever_init_globals
  */
 /* Uncomment this function if you have INI entries
-static void php_hello_init_globals(zend_hello_globals *hello_globals)
+static void php_ever_init_globals(zend_ever_globals *ever_globals)
 {
-	hello_globals->global_value = 0;
-	hello_globals->global_string = NULL;
+	ever_globals->global_value = 0;
+	ever_globals->global_string = NULL;
 }
 */
 /* }}} */
 
 /* {{{ PHP_MINIT_FUNCTION
  */
-PHP_MINIT_FUNCTION(hello)
+PHP_MINIT_FUNCTION(ever)
 {
 	/* If you have INI entries, uncomment these lines 
 	REGISTER_INI_ENTRIES();
@@ -102,7 +105,7 @@ PHP_MINIT_FUNCTION(hello)
 
 /* {{{ PHP_MSHUTDOWN_FUNCTION
  */
-PHP_MSHUTDOWN_FUNCTION(hello)
+PHP_MSHUTDOWN_FUNCTION(ever)
 {
 	/* uncomment this line if you have INI entries
 	UNREGISTER_INI_ENTRIES();
@@ -114,7 +117,7 @@ PHP_MSHUTDOWN_FUNCTION(hello)
 /* Remove if there's nothing to do at request start */
 /* {{{ PHP_RINIT_FUNCTION
  */
-PHP_RINIT_FUNCTION(hello)
+PHP_RINIT_FUNCTION(ever)
 {
 	return SUCCESS;
 }
@@ -123,7 +126,7 @@ PHP_RINIT_FUNCTION(hello)
 /* Remove if there's nothing to do at request end */
 /* {{{ PHP_RSHUTDOWN_FUNCTION
  */
-PHP_RSHUTDOWN_FUNCTION(hello)
+PHP_RSHUTDOWN_FUNCTION(ever)
 {
 	return SUCCESS;
 }
@@ -131,10 +134,10 @@ PHP_RSHUTDOWN_FUNCTION(hello)
 
 /* {{{ PHP_MINFO_FUNCTION
  */
-PHP_MINFO_FUNCTION(hello)
+PHP_MINFO_FUNCTION(ever)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, "hello support", "enabled");
+	php_info_print_table_header(2, "ever support", "enabled");
 	php_info_print_table_end();
 
 	/* Remove comments if you have entries in php.ini
@@ -149,9 +152,9 @@ PHP_MINFO_FUNCTION(hello)
    purposes. */
 
 /* Every user-visible function in PHP should document itself in the source */
-/* {{{ proto string confirm_hello_compiled(string arg)
+/* {{{ proto string confirm_ever_compiled(string arg)
    Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(confirm_hello_compiled)
+PHP_FUNCTION(confirm_ever_compiled)
 {
 	char *arg = NULL;
 	int arg_len, len;
@@ -161,7 +164,7 @@ PHP_FUNCTION(confirm_hello_compiled)
 		return;
 	}
 
-	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "hello", arg);
+	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "ever", arg);
 	RETURN_STRINGL(strg, len, 0);
 }
 /* }}} */
@@ -170,6 +173,51 @@ PHP_FUNCTION(confirm_hello_compiled)
    function definition, where the functions purpose is also documented. Please 
    follow this convention for the convenience of others editing your code.
 */
+
+/* {{{ proto double calcpi(int iterations)
+   Calculate Pi */
+PHP_FUNCTION(calcpi)
+{
+	int argc = ZEND_NUM_ARGS();
+	long iterations;
+
+	if (zend_parse_parameters(argc TSRMLS_CC, "l", &iterations) == FAILURE) 
+		return;
+
+	php_error(E_WARNING, "calcpi: not yet implemented");
+}
+/* }}} */
+
+/* {{{ proto string reverse(string input)
+   Reverse the input string */
+PHP_FUNCTION(reverse)
+{
+	char *input = NULL;
+	int argc = ZEND_NUM_ARGS();
+	int input_len;
+
+	if (zend_parse_parameters(argc TSRMLS_CC, "s", &input, &input_len) == FAILURE) 
+		return;
+
+	php_error(E_WARNING, "reverse: not yet implemented");
+}
+/* }}} */
+
+/* {{{ proto array uniquechars(string input [, bool case_sensitive])
+   Return the unique characters in the input string */
+PHP_FUNCTION(uniquechars)
+{
+	char *input = NULL;
+	int argc = ZEND_NUM_ARGS();
+	int input_len;
+	zend_bool case_sensitive;
+
+	if (zend_parse_parameters(argc TSRMLS_CC, "s|b", &input, &input_len, &case_sensitive) == FAILURE) 
+		return;
+
+	php_error(E_WARNING, "uniquechars: not yet implemented");
+}
+/* }}} */
 
 
 /*

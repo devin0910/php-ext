@@ -2,12 +2,12 @@
 // vim:ft=javascript
 
 // If your extension references something external, use ARG_WITH
-// ARG_WITH("hello", "for hello support", "no");
+// ARG_WITH("ever", "for ever support", "no");
 
 // Otherwise, use ARG_ENABLE
-// ARG_ENABLE("hello", "enable hello support", "no");
+// ARG_ENABLE("ever", "enable ever support", "no");
 
-if (PHP_HELLO != "no") {
-	EXTENSION("hello", "hello.c");
+if (PHP_EVER != "no") {
+	EXTENSION("ever", "ever.c");
 }
 

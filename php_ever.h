@@ -18,59 +18,64 @@
 
 /* $Id$ */
 
-#ifndef PHP_HELLO_H
-#define PHP_HELLO_H
+#ifndef PHP_EVER_H
+#define PHP_EVER_H
 
-extern zend_module_entry hello_module_entry;
-#define phpext_hello_ptr &hello_module_entry
+extern zend_module_entry ever_module_entry;
+#define phpext_ever_ptr &ever_module_entry
+
+#define PHP_EVER_VERSION "0.1.0" /* Replace with version number for your extension */
 
 #ifdef PHP_WIN32
-#	define PHP_HELLO_API __declspec(dllexport)
+#	define PHP_EVER_API __declspec(dllexport)
 #elif defined(__GNUC__) && __GNUC__ >= 4
-#	define PHP_HELLO_API __attribute__ ((visibility("default")))
+#	define PHP_EVER_API __attribute__ ((visibility("default")))
 #else
-#	define PHP_HELLO_API
+#	define PHP_EVER_API
 #endif
 
 #ifdef ZTS
 #include "TSRM.h"
 #endif
 
-PHP_MINIT_FUNCTION(hello);
-PHP_MSHUTDOWN_FUNCTION(hello);
-PHP_RINIT_FUNCTION(hello);
-PHP_RSHUTDOWN_FUNCTION(hello);
-PHP_MINFO_FUNCTION(hello);
+PHP_MINIT_FUNCTION(ever);
+PHP_MSHUTDOWN_FUNCTION(ever);
+PHP_RINIT_FUNCTION(ever);
+PHP_RSHUTDOWN_FUNCTION(ever);
+PHP_MINFO_FUNCTION(ever);
 
-PHP_FUNCTION(confirm_hello_compiled);	/* For testing, remove later. */
+PHP_FUNCTION(confirm_ever_compiled);	/* For testing, remove later. */
+PHP_FUNCTION(calcpi);
+PHP_FUNCTION(reverse);
+PHP_FUNCTION(uniquechars);
 
 /* 
   	Declare any global variables you may need between the BEGIN
 	and END macros here:     
 
-ZEND_BEGIN_MODULE_GLOBALS(hello)
+ZEND_BEGIN_MODULE_GLOBALS(ever)
 	long  global_value;
 	char *global_string;
-ZEND_END_MODULE_GLOBALS(hello)
+ZEND_END_MODULE_GLOBALS(ever)
 */
 
 /* In every utility function you add that needs to use variables 
-   in php_hello_globals, call TSRMLS_FETCH(); after declaring other 
+   in php_ever_globals, call TSRMLS_FETCH(); after declaring other 
    variables used by that function, or better yet, pass in TSRMLS_CC
    after the last function argument and declare your utility function
    with TSRMLS_DC after the last declared argument.  Always refer to
-   the globals in your function as HELLO_G(variable).  You are 
+   the globals in your function as EVER_G(variable).  You are 
    encouraged to rename these macros something shorter, see
    examples in any other php module directory.
 */
 
 #ifdef ZTS
-#define HELLO_G(v) TSRMG(hello_globals_id, zend_hello_globals *, v)
+#define EVER_G(v) TSRMG(ever_globals_id, zend_ever_globals *, v)
 #else
-#define HELLO_G(v) (hello_globals.v)
+#define EVER_G(v) (ever_globals.v)
 #endif
 
-#endif	/* PHP_HELLO_H */
+#endif	/* PHP_EVER_H */
 
 
 /*

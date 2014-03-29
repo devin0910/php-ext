@@ -1,10 +1,10 @@
 --TEST--
-Check for hello presence
+Check for ever presence
 --SKIPIF--
-<?php if (!extension_loaded("hello")) print "skip"; ?>
+<?php if (!extension_loaded("ever")) print "skip"; ?>
 --FILE--
 <?php 
-echo "hello extension is available";
+echo "ever extension is available";
 /*
 	you can add regression tests for your extension here
 
@@ -18,4 +18,4 @@ echo "hello extension is available";
 */
 ?>
 --EXPECT--
-hello extension is available
+ever extension is available
