@@ -26,6 +26,10 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "php_hello.h"
+#include "cultist.h"
+#include <zend_exceptions.h>
+
+zend_class_entry *rlyeh_ce_exception;
 
 /* If you declare any globals in php_hello.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(hello)
@@ -40,6 +44,8 @@ static int le_hello;
  */
 const zend_function_entry hello_functions[] = {
 	PHP_FE(confirm_hello_compiled,	NULL)		/* For testing, remove later. */
+	PHP_FE(makeObject,	NULL)		/* For testing, remove later. */
+	PHP_FE(lookAtMonster,	NULL)		/* For testing, remove later. */
 	PHP_FE_END	/* Must be the last line in hello_functions[] */
 };
 /* }}} */
@@ -96,6 +102,8 @@ PHP_MINIT_FUNCTION(hello)
 	/* If you have INI entries, uncomment these lines 
 	REGISTER_INI_ENTRIES();
 	*/
+    rlyeh_init_cultist(TSRMLS_CC);
+    rlyeh_init_exception(TSRMLS_C);
 	return SUCCESS;
 }
 /* }}} */
@@ -164,6 +172,28 @@ PHP_FUNCTION(confirm_hello_compiled)
 	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "hello", arg);
 	RETURN_STRINGL(strg, len, 0);
 }
+
+PHP_FUNCTION(makeObject)
+{
+    object_init(return_value);
+
+    zend_update_property_string(NULL, return_value, "name", strlen("name"), "yig" TSRMLS_CC);
+    zend_update_property_long(NULL, return_value, "worshippers", strlen("worshippers"), 4 TSRMLS_CC);
+}
+
+PHP_FUNCTION(lookAtMonster)
+{
+    zend_throw_exception(rlyeh_ce_exception, "looked at the monster too long", 1000 TSRMLS_CC);
+}
+
+void rlyeh_init_exception(TSRMLS_D)
+{
+    zend_class_entry e;
+
+    INIT_CLASS_ENTRY(e, "MadnessException", NULL);
+    rlyeh_ce_exception = zend_register_internal_class_ex(&e, (zend_class_entry*)zend_exception_get_default(TSRMLS_C), NULL TSRMLS_CC);
+}
+
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and 
    unfold functions in source code. See the corresponding marks just before 

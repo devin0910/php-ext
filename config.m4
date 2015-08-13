@@ -59,5 +59,5 @@ if test "$PHP_HELLO" != "no"; then
   dnl
   dnl PHP_SUBST(HELLO_SHARED_LIBADD)
 
-  PHP_NEW_EXTENSION(hello, hello.c, $ext_shared)
+  PHP_NEW_EXTENSION(hello, hello.c cultist.c, $ext_shared)
 fi

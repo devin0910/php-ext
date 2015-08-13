@@ -43,6 +43,10 @@ PHP_RSHUTDOWN_FUNCTION(hello);
 PHP_MINFO_FUNCTION(hello);
 
 PHP_FUNCTION(confirm_hello_compiled);	/* For testing, remove later. */
+PHP_FUNCTION(makeObject);	/* For testing, remove later. */
+PHP_FUNCTION(lookAtMonster);	/* For testing, remove later. */
+
+void rlyeh_init_exception(TSRMLS_D);
 
 /* 
   	Declare any global variables you may need between the BEGIN
