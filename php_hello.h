@@ -22,6 +22,7 @@
 #define PHP_HELLO_H
 
 extern zend_module_entry hello_module_entry;
+void hello_old_one_pefree(zend_rsrc_list_entry *rsrc TSRMLS_DC);
 #define phpext_hello_ptr &hello_module_entry
 
 #ifdef PHP_WIN32
@@ -42,7 +43,13 @@ PHP_RINIT_FUNCTION(hello);
 PHP_RSHUTDOWN_FUNCTION(hello);
 PHP_MINFO_FUNCTION(hello);
 
-PHP_FUNCTION(confirm_hello_compiled);	/* For testing, remove later. */
+PHP_FUNCTION(cthulhu);	/* For testing, remove later. */
+PHP_FUNCTION(makeBool);	/* For testing, remove later. */
+PHP_FUNCTION(makeLong);	/* For testing, remove later. */
+PHP_FUNCTION(leak);	/* For testing, remove later. */
+PHP_FUNCTION(getYig);	/* For testing, remove later. */
+PHP_FUNCTION(chant);	/* For testing, remove later. */
+PHP_FUNCTION(findMonster);	/* For testing, remove later. */
 
 /* 
   	Declare any global variables you may need between the BEGIN
@@ -63,6 +70,11 @@ ZEND_END_MODULE_GLOBALS(hello)
    encouraged to rename these macros something shorter, see
    examples in any other php module directory.
 */
+
+typedef struct _old_one {
+    char *name;
+    int worshippers;
+} old_one;
 
 #ifdef ZTS
 #define HELLO_G(v) TSRMG(hello_globals_id, zend_hello_globals *, v)
